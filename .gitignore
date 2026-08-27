@@ -1,0 +1,4 @@
+.venv/
+.env
+*_embedded.json
+*_embedded_progress.json
