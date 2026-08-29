@@ -7,6 +7,12 @@ from google import genai
 load_dotenv()  # reads .env in the current directory, sets the values as env vars for this process
 client = genai.Client()  # still works the same way — reads GEMINI_API_KEY, now sourced from .env
 
+
+def is_reserved_placeholder(text: str) -> bool:
+    """True if a chunk's content is just a [Reserved] marker, nothing else."""
+    stripped = re.sub(r'^\([a-z0-9]+\)\s*', '', text).strip()  # strip leading "(b)" etc.
+    return stripped.lower() in ("[reserved]", "reserved")
+
 def split_section(section: dict, threshold: int = 2000) -> list[dict]:
     """Split a section into one or more chunks. Short sections stay whole."""
     text = section["text"]
@@ -49,10 +55,12 @@ def split_section(section: dict, threshold: int = 2000) -> list[dict]:
 
 if __name__ == "__main__":
     corpus = json.load(open("part91_corpus.json"))
-
+    
     all_chunks = []
     for section in corpus:
-        all_chunks.extend(split_section(section))
+        for chunk in split_section(section):
+            if not is_reserved_placeholder(chunk["text"]):
+                all_chunks.append(chunk)
 
     print(f"Sections: {len(corpus)}")
     print(f"Total chunks: {len(all_chunks)}")
