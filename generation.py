@@ -1,5 +1,8 @@
 import json
+import re
+import time
 from google import genai
+from google.genai import errors
 from google.genai.types import GenerateContentConfig
 
 from retrieval import retrieve
@@ -7,6 +10,24 @@ from retrieval import retrieve
 genai_client = genai.Client()
 
 GENERATION_MODEL = "gemini-3.6-flash"
+
+
+def generate_content_with_retry(model, contents, config, max_retries=5):
+    """Generation is capped at 5 requests/minute on the free tier — far stricter
+    than the 100/minute for embeddings — so retry on 429 with the delay Google
+    actually tells us to wait, instead of assuming a limit."""
+    for attempt in range(max_retries):
+        try:
+            return genai_client.models.generate_content(model=model, contents=contents, config=config)
+        except errors.ClientError as e:
+            if e.code == 429:
+                match = re.search(r"retry in ([\d.]+)s", str(e))
+                wait_time = float(match.group(1)) + 2 if match else 15
+                print(f"Rate limited on generation. Waiting {wait_time:.1f}s...")
+                time.sleep(wait_time)
+            else:
+                raise
+    raise RuntimeError("Max retries exceeded for generation call")
 
 RESPONSE_SCHEMA = {
     "type": "object",
@@ -53,7 +74,7 @@ Retrieved excerpts:
 
 Respond in the required JSON format."""
 
-    response = genai_client.models.generate_content(
+    response = generate_content_with_retry(
         model=GENERATION_MODEL,
         contents=prompt,
         config=GenerateContentConfig(

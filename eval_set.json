@@ -1,0 +1,152 @@
+[
+  {
+    "id": "q01",
+    "question": "Who has final authority over the operation of an aircraft?",
+    "expected_citations": ["91.3"],
+    "expected_answerable": true,
+    "expected_facts": ["final authority"],
+    "category": "clear_answerable"
+  },
+  {
+    "id": "q02",
+    "question": "What must a pilot in command do after deviating from a rule during an in-flight emergency?",
+    "expected_citations": ["91.3"],
+    "expected_answerable": true,
+    "expected_facts": ["written report"],
+    "category": "clear_answerable"
+  },
+
+  {
+    "id": "q03",
+    "question": "How long after drinking alcohol must a crewmember wait before flying?",
+    "expected_citations": ["91.17"],
+    "expected_answerable": true,
+    "expected_facts": ["8 hours"],
+    "category": "numeric_precision"
+  },
+  {
+    "id": "q04",
+    "question": "What is the maximum blood alcohol concentration allowed for a crewmember?",
+    "expected_citations": ["91.17"],
+    "expected_answerable": true,
+    "expected_facts": ["0.04"],
+    "category": "numeric_precision"
+  },
+  {
+    "id": "q05",
+    "question": "How high above the highest obstacle must I fly over a congested area?",
+    "expected_citations": ["91.119"],
+    "expected_answerable": true,
+    "expected_facts": ["1,000 feet", "2,000 feet"],
+    "category": "numeric_precision"
+  },
+  {
+    "id": "q06",
+    "question": "What is the minimum altitude over open water or sparsely populated areas?",
+    "expected_citations": ["91.119"],
+    "expected_answerable": true,
+    "expected_facts": ["500 feet"],
+    "category": "numeric_precision"
+  },
+  {
+    "id": "q07",
+    "question": "Within how many nautical miles of a VOR does the MOCA exception apply for IFR flight?",
+    "expected_citations": ["91.177"],
+    "expected_answerable": true,
+    "expected_facts": ["22 nautical miles"],
+    "category": "numeric_precision"
+  },
+
+  {
+    "id": "q08",
+    "question": "Can a helicopter operate below the standard minimum safe altitude?",
+    "expected_citations": ["91.119"],
+    "expected_answerable": true,
+    "expected_facts": [],
+    "category": "nested_structure"
+  },
+  {
+    "id": "q09",
+    "question": "What are the visibility rules for a helicopter in an airport traffic pattern in Class G airspace?",
+    "expected_citations": ["91.155"],
+    "expected_answerable": true,
+    "expected_facts": ["1/2 statute mile"],
+    "category": "nested_structure"
+  },
+  {
+    "id": "q10",
+    "question": "What kind of imaging sensors qualify for an EFVS display?",
+    "expected_citations": ["91.176"],
+    "expected_answerable": true,
+    "expected_facts": ["forward-looking infrared"],
+    "category": "nested_structure"
+  },
+  {
+    "id": "q11",
+    "question": "Is an ATC clearance required to operate under Special VFR?",
+    "expected_citations": ["91.157"],
+    "expected_answerable": true,
+    "expected_facts": ["ATC clearance"],
+    "category": "nested_structure"
+  },
+
+  {
+    "id": "q12",
+    "question": "What does 'contiguous United States' mean under the noise regulations?",
+    "expected_citations": ["91.851"],
+    "expected_answerable": true,
+    "expected_facts": ["48 contiguous"],
+    "category": "definitional"
+  },
+
+  {
+    "id": "q13",
+    "question": "If I have an ATC clearance and only 1 statute mile of flight visibility, can I still operate VFR near a controlled airport?",
+    "expected_citations": ["91.155", "91.157"],
+    "expected_answerable": true,
+    "expected_facts": ["1 statute mile", "ATC clearance"],
+    "category": "cross_section"
+  },
+
+  {
+    "id": "q14",
+    "question": "What is the minimum altitude for IFR flight over mountainous terrain?",
+    "expected_citations": ["91.177"],
+    "expected_answerable": true,
+    "expected_facts": ["2,000 feet"],
+    "category": "adjacent_confusion"
+  },
+
+  {
+    "id": "q15",
+    "question": "What are the rules for commercial space launch licensing?",
+    "expected_citations": [],
+    "expected_answerable": false,
+    "expected_facts": [],
+    "category": "out_of_scope"
+  },
+  {
+    "id": "q16",
+    "question": "What medical certificate do I need to be a pilot?",
+    "expected_citations": [],
+    "expected_answerable": false,
+    "expected_facts": [],
+    "category": "out_of_scope"
+  },
+  {
+    "id": "q17",
+    "question": "How do I register a drone under Part 107?",
+    "expected_citations": [],
+    "expected_answerable": false,
+    "expected_facts": [],
+    "category": "out_of_scope"
+  },
+  {
+    "id": "q18",
+    "question": "What are the requirements to become an air traffic controller?",
+    "expected_citations": [],
+    "expected_answerable": false,
+    "expected_facts": [],
+    "category": "out_of_scope"
+  }
+]
