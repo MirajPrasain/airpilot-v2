@@ -3,15 +3,11 @@ import re
 from dotenv import load_dotenv
 from google import genai
 
+from corpus_inspect import is_reserved_placeholder
 
 load_dotenv()  # reads .env in the current directory, sets the values as env vars for this process
 client = genai.Client()  # still works the same way — reads GEMINI_API_KEY, now sourced from .env
 
-
-def is_reserved_placeholder(text: str) -> bool:
-    """True if a chunk's content is just a [Reserved] marker, nothing else."""
-    stripped = re.sub(r'^\([a-z0-9]+\)\s*', '', text).strip()  # strip leading "(b)" etc.
-    return stripped.lower() in ("[reserved]", "reserved")
 
 def split_section(section: dict, threshold: int = 2000) -> list[dict]:
     """Split a section into one or more chunks. Short sections stay whole."""
@@ -53,24 +49,43 @@ def split_section(section: dict, threshold: int = 2000) -> list[dict]:
         "text": p,
     } for idx, p in enumerate(paragraphs)]
 
-if __name__ == "__main__":
-    corpus = json.load(open("part91_corpus.json"))
-    
+# unused - not called anywhere; invoke manually when you want to check
+def report_chunk_examples(corpus: list[dict], identifiers: list[str], preview_chars: int = 200) -> None:
+    """Diagnostic: run split_section() on a few known sections and preview the
+    first chunk of each - a quick eyeball check that splitting looks sane before
+    running it over the whole corpus."""
+    for identifier in identifiers:
+        section = next(s for s in corpus if s["identifier"] == identifier)
+        chunks = split_section(section)
+
+        print(f"{identifier} -> {len(chunks)} chunks")
+        print(chunks[0]["chunk_id"], "-", chunks[0]["text"][:preview_chars])
+        print()
+
+def generate_chunks(corpus_path: str, output_path: str) -> list[dict]:
+    """Split every section in corpus_path into chunks, drop reserved-placeholder
+    chunks, and save the result as JSON to output_path."""
+    corpus = json.load(open(corpus_path))
+
     all_chunks = []
     for section in corpus:
         for chunk in split_section(section):
             if not is_reserved_placeholder(chunk["text"]):
                 all_chunks.append(chunk)
 
-    print(f"Sections: {len(corpus)}")
-    print(f"Total chunks: {len(all_chunks)}")
-
-    with open("part91_chunks.json", "w") as f:
+    with open(output_path, "w") as f:
         json.dump(all_chunks, f, indent=2)
 
-    print("Saved to part91_chunks.json")
+    print(f"Sections: {len(corpus)}")
+    print(f"Total chunks: {len(all_chunks)}")
+    print(f"Saved to {output_path}")
 
-    chunks = json.load(open("part91_chunks.json"))
+    return all_chunks
+
+if __name__ == "__main__":
+    chunks = generate_chunks("../data/part91_corpus.json", "../data/part91_chunks.json")
+
+    # spot check: definitions section (91.851) chunked as expected
     defs_chunks = [c for c in chunks if c["chunk_id"].startswith("91.851")]
     for c in defs_chunks[:3]:
         print(c["chunk_id"], "|", c["citation"])

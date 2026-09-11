@@ -22,7 +22,7 @@ def find_matches(corpus, citation):
     return hits
 
 if __name__ == "__main__":
-    corpus = load("part91_corpus.json")   # swap to part91_chunks.json if you want the post-chunking view instead
+    corpus = load("../data/part91_corpus.json")   # swap to part91_chunks.json if you want the post-chunking view instead
     show_shape(corpus)
 
     for cite in CITATIONS:

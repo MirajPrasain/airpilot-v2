@@ -1,5 +1,5 @@
 import json
-corpus = json.load(open("part91_corpus.json"))
+corpus = json.load(open("../data/part91_corpus.json"))
 # #Inspect Headings to have a general idea about what kind of eval questions to form  eg:- 91.1701 - § 91.1701 Applicability.
 # for s in corpus:
 #     print(s["identifier"], "-", s["heading"])

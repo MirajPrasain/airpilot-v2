@@ -1,8 +1,14 @@
 import json
+import sys
 import time
+import re
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from retrieval import retrieve
 from generation import generate_answer
-import re
+
+EVAL_SET_PATH = Path(__file__).resolve().parent / "eval_set.json"
 
 def citation_matches(expected_section: str, actual_citation: str) -> bool:
     """True if actual_citation refers to expected_section, avoiding false positives
@@ -10,7 +16,7 @@ def citation_matches(expected_section: str, actual_citation: str) -> bool:
     pattern = re.escape(expected_section) + r'(\(|$|\s)'
     return re.search(pattern, actual_citation) is not None
 
-def run_eval(eval_path: str = "eval_set.json"):
+def run_eval(eval_path: str = EVAL_SET_PATH):
     eval_set = json.load(open(eval_path))
     results = []
 

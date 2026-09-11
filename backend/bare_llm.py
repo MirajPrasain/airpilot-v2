@@ -1,7 +1,10 @@
+import json
 from google import genai
 from google.genai.types import GenerateContentConfig
 from dotenv import load_dotenv
 load_dotenv()
+
+from generation import generate_answer
 
 
 genai_client = genai.Client()
@@ -23,15 +26,10 @@ def generate_bare_answer(question: str) -> str:
     return response.text
 
 
-if __name__ == "__main__":
-    from generation import generate_answer
-    import json
-
-    questions = [
-        "Can I fly under the influence of alcohol?",
-        "What are the rules for commercial space launch licensing?",
-    ]
-
+def compare_bare_vs_grounded(questions: list[str]) -> None:
+    """Print bare-LLM vs AirPilot (retrieval-grounded) answers side by side for each
+    question - a quick way to see what grounding actually buys you (citations,
+    fewer hallucinations) before/after changing retrieval or generation."""
     for q in questions:
         print(f"Q: {q}")
         print("\n--- Bare LLM (no retrieval) ---")
@@ -41,3 +39,9 @@ if __name__ == "__main__":
         grounded = generate_answer(q)
         print(json.dumps(grounded, indent=2))
         print("=" * 60)
+
+if __name__ == "__main__":
+    compare_bare_vs_grounded([
+        "Can I fly under the influence of alcohol?",
+        "What are the rules for commercial space launch licensing?",
+    ])

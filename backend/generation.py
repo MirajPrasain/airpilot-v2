@@ -67,12 +67,8 @@ def generate_answer(question: str) -> dict:
         f"[{c['citation']}]\n{c['text']}" for c in chunks
     )
 
-    prompt = f"""Question: {question}
-
-Retrieved excerpts:
-{context}
-
-Respond in the required JSON format."""
+    prompt = f"""Question: {question}. Retrieved excerpts: {context}
+                Respond in the required JSON format."""
 
     response = generate_content_with_retry(
         model=GENERATION_MODEL,

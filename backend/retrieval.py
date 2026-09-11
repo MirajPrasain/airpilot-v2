@@ -61,25 +61,5 @@ def retrieve(question: str, limit: int = 5, min_score: float = 0.8) -> list[dict
     return list(collection.aggregate(pipeline))
 
 if __name__ == "__main__":
-    #Relevant question check 
-    # question = "Can I fly under the influence of alcohol?"
-    # results = retrieve(question)
-    #  for r in results:
-    #         print(f"{r['citation']} (score: {r['score']:.4f})")
-    #         print(f"  {r['text'][:150]}...")
-    #         print()
-
-    #Irrelevant question thresold check 
-    # irrelevant_question = "What is the capital of France?"
-    # results = retrieve(irrelevant_question, limit=5)
-    # for r in results:
-    #     print(f"{r['citation']} (score: {r['score']:.4f})")
-
-    #Borderline case , not maximally irrelevant 
-    question = "What are the rules for commercial space launch licensing?"
-    results = retrieve(question, limit=5)
-    for r in results:
-      print(f"{r['citation']} (score: {r['score']:.4f})")
-
-
-   
+    pass
+    # sanity-check functions for retrieve() moved to retrieval_inspect.py
