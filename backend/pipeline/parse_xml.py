@@ -1,5 +1,36 @@
 import xml.etree.ElementTree as ET
+import gzip
 import json
+import urllib.request
+
+ECFR_BASE_URL = "https://www.ecfr.gov/api/versioner/v1"
+
+def fetch_latest_issue_date(title: str) -> str:
+    """Look up eCFR's latest issue date for a title, for use as the date path segment below."""
+    with urllib.request.urlopen(f"{ECFR_BASE_URL}/titles.json") as response:
+        titles = json.load(response)["titles"]
+    matching = next(t for t in titles if str(t["number"]) == str(title))
+    return matching["latest_issue_date"]
+
+def download_xml(title: str, part: str, output_path: str, date: str | None = None) -> str:
+    """Download the eCFR XML for a title/part and save it to output_path.
+    If date is omitted, uses the title's latest issue date. Returns output_path."""
+    if date is None:
+        date = fetch_latest_issue_date(title)
+
+    url = f"{ECFR_BASE_URL}/full/{date}/title-{title}.xml?part={part}"
+    # the endpoint refuses to serve uncompressed - request gzip and decompress ourselves
+    request = urllib.request.Request(url, headers={"Accept-Encoding": "gzip"})
+    with urllib.request.urlopen(request) as response:
+        raw = response.read()
+        if response.headers.get("Content-Encoding") == "gzip":
+            raw = gzip.decompress(raw)
+
+    with open(output_path, "wb") as f:
+        f.write(raw)
+
+    print(f"Downloaded title {title} part {part} (as of {date}) to {output_path}")
+    return output_path
 
 def parse_sections(xml_path: str) -> list[dict]:
     tree = ET.parse(xml_path)
