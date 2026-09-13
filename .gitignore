@@ -6,3 +6,4 @@ venv/
 title14_part91.xml
 __pycache__/
 *.pyc
+.DS_Store
