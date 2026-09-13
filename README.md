@@ -3,7 +3,7 @@
 **A retrieval-grounded AI copilot for aviation safety regulations — built to demonstrate trustworthy, citation-backed AI over hallucination-prone bare LLM output.**
 
 Live demo: `https://airpilot-frontend.onrender.com/`
-Source:``
+Source:`https://github.com/MirajPrasain/airpilot-v2`
 
 ---
 
@@ -102,7 +102,3 @@ python3 eval_runner.py
 ```
 
 Runs all 18 questions against the live pipeline and prints a pass/fail report broken down by category.
-
----
-
-Built as part of a portfolio of AI agent systems targeting engineering roles at AI-first startups.
