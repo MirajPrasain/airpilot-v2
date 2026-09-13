@@ -9,7 +9,7 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # tighten this before real deployment
+    allow_origins=["https://airpilot-frontend.onrender.com"],
     allow_methods=["*"],
     allow_headers=["*"],
 )

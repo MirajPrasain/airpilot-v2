@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { AnimatePresence, motion, useReducedMotion, type Variants } from "motion/react";
 import type { AskResponse } from "../types";
 
-const API_URL = "http://localhost:8000/ask";
+const API_URL = "https://airpilot-backend.onrender.com/ask";
 
 const EASE_OUT = [0.22, 1, 0.36, 1] as const;
 
